@@ -109,25 +109,24 @@ const openModal = function (e) {
     .addEventListener("click", stopPropagation);
 };
 
-// //ne fonctionne pas
-// const addNewModal = function () {
-//   const addModalButton = document.getElementById("submit__add_picture");
-//   addModalButton.addEventListener("click", newModal);
-//   const newModal = document.createElement("aside");
-//   newModal.className = "modal2";
-//   newModal.setAttribute("aria-hidden", "true");
-//   newModal.innerHTML = `
-//   // <div class="modal__wrapper js__modal__stop">
-//   // <i class="fa-solid fa-xmark close__icon"></i>
-//   // <h3 id="title__modal">Ajout de photo</h3>
-//   // <div class="gallery__modal" id="galleryModal"></div>
-//   // </div>
-//   // `;
-//   console.log(newModal);
-
+const addNewModal = function () {
+  const addModalButton = document.getElementById("submit__add__picture");
+  addModalButton.addEventListener("click", () => {
+    console.log("Le bouton cliqué.");
+  });
+};
+// const newModal = document.createElement("div");
+// newModal.innerHTML = `
+//   <div class="modal__wrapper js__modal__stop">
+//     <i class="fa-solid fa-xmark close__icon"></i>
+//     <h3 id="title__modal">Ajout de photo</h3>
+//     <div class="gallery__modal" id="galleryModal"></div>
+//   </div>
+// `;
+// addModalButton.addEventListener("click", function () {
 //   document.body.appendChild(newModal);
+// });
 
-//   newModal.style.display = null;
 //   newModal.addEventListener("click", closeModal);
 //   newModal.querySelector(".close__icon").addEventListener("click", closeModal);
 //   newModal
@@ -163,7 +162,6 @@ document.querySelectorAll(".js__modal").forEach((a) => {
 
 // const addModalButton = document.getElementById("submit__add__picture");
 // if (addModalButton.addEventListener("click", addNewModal))
-
 //touche echap pour fermer le moda
 
 window.addEventListener("keydown", function (e) {
