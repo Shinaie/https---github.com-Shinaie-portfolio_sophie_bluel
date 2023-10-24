@@ -3,6 +3,7 @@
 //------------------------------------------------
 
 let worksData = [];
+let categoriesData = [];
 
 const fetchWorks = async () => {
   await fetch("http://localhost:5678/api/works")
@@ -32,6 +33,7 @@ const fetchCategories = async () => {
     .then((response) => response.json())
     .then((data) => {
       buttons(data);
+      categoriesData = data;
     });
 };
 fetchCategories();
@@ -71,6 +73,7 @@ const filterWorks = (categoryName) => {
 //****************************  modal **********************//
 
 let modal = null;
+let modal2 = null;
 
 const openModal = function (e) {
   e.preventDefault();
@@ -87,19 +90,11 @@ const openModal = function (e) {
     .map(
       (project) => `
         <figure>
+          <i class="fa-regular fa-trash-can" id="delete__picture"></i>
            <img src="${project.imageUrl}" alt="photo de ${project.title}">
         </figure>`
     )
     .join("");
-
-  const modalWrapper = document.getElementById("submit__modal");
-  modalWrapper.innerHTML = `
-       <form action="#" method="post">
-        <input type="button" id="submit__add__picture" value="Ajouter une photo"></input>
-       <form>
-        </div>
-
-    `;
 
   modal = target;
   modal.addEventListener("click", closeModal);
@@ -109,45 +104,70 @@ const openModal = function (e) {
     .addEventListener("click", stopPropagation);
 };
 
+//Ajout du modal 2
+
 const addNewModal = function () {
-  const addModalButton = document.getElementById("submit__add__picture");
-  addModalButton.addEventListener("click", () => {
-    console.log("Le bouton cliqué.");
+  // // test pour automatiser la categorie
+
+  // const select = document.querySelector(".option__category");
+  // select.innerHTML = categoriesData
+  //   .map(
+  //     (category) => `<option value="${category.id}">${category.name}</option>`
+  //   )
+  //   .join("");
+  // console.log(categoriesData);
+
+  const target2 = document.querySelector("#submit__add__picture");
+  target2.addEventListener("click", (e) => {
+    e.preventDefault();
+    const openModal2 = document.getElementById("modal2");
+    openModal2.style.display = null;
+    modal.style.display = "none";
+
+    //ajout de la categorie
+
+    modal2 = openModal2;
+    modal2.addEventListener("click", closeModal2);
+    modal2.querySelector(".close__icon").addEventListener("click", closeModal2);
+    modal2
+      .querySelector(".js__modal__stop")
+      .addEventListener("click", stopPropagation);
   });
 };
-// const newModal = document.createElement("div");
-// newModal.innerHTML = `
-//   <div class="modal__wrapper js__modal__stop">
-//     <i class="fa-solid fa-xmark close__icon"></i>
-//     <h3 id="title__modal">Ajout de photo</h3>
-//     <div class="gallery__modal" id="galleryModal"></div>
-//   </div>
-// `;
-// addModalButton.addEventListener("click", function () {
-//   document.body.appendChild(newModal);
-// });
+addNewModal();
 
-//   newModal.addEventListener("click", closeModal);
-//   newModal.querySelector(".close__icon").addEventListener("click", closeModal);
-//   newModal
-//     .querySelector(".js__modal__stop")
-//     .addEventListener("click", stopPropagation);
-// };
+//function sur la fleche retour
 
+const returnModal = function () {
+  const returnModal1 = document.querySelector(".return__icon");
+  returnModal1.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal2.style.display = "none";
+    modal.style.display = null;
+  });
+};
+returnModal();
 // // creation du modal ajout, quand on click sur ajout photo, il apparait
 
 const closeModal = function (e) {
   if (modal === null) return;
   e.preventDefault();
   modal.style.display = "none";
-  modal.setAttribute("aria-modal");
-  modal.removeAttribute("aria-modal");
+  // modal.setAttribute("aria-modal");
+  // modal.removeAttribute("aria-modal");
   modal.removeEventListener("click", closeModal);
   modal.querySelector(".close__icon").removeEventListener("click", closeModal);
   modal
     .querySelector(".js__modal__stop")
     .removeEventListener("click", stopPropagation);
   modal = null;
+};
+
+const closeModal2 = function (e) {
+  if (modal2 === null) return;
+  e.preventDefault();
+  modal2.style.display = "none";
+  modal2 = null;
 };
 
 //enleve la fermeture au click
@@ -160,13 +180,12 @@ document.querySelectorAll(".js__modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
-// const addModalButton = document.getElementById("submit__add__picture");
-// if (addModalButton.addEventListener("click", addNewModal))
 //touche echap pour fermer le moda
 
 window.addEventListener("keydown", function (e) {
   if (e.key === "Escape" || e.key === "Esc") {
     closeModal(e);
+    closeModal2(e);
   }
 });
 

@@ -359,6 +359,16 @@ footer nav ul {
   border-radius: 10px;
 }
 
+.js__modal {
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+}
+
 .fa-pen-to-square {
   padding-right: 8px;
 }
@@ -384,6 +394,26 @@ footer nav ul {
   height: 104px;
 }
 
+.gallery__modal figure {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.fa-trash-can {
+  position: relative;
+  left: 70%;
+  top: 21px;
+  background: black;
+  color: white;
+  padding: 4px;
+  font-size: 9px;
+  text-align: center;
+  border-radius: 2px;
+  width: 10px;
+  cursor: pointer;
+}
+
 #submit__modal {
   width: 50%;
   margin: auto;
@@ -407,4 +437,80 @@ footer nav ul {
   justify-content: flex-end;
   cursor: pointer;
   font-size: 20px;
+}
+
+/****** Modal 2 ********/
+
+.return__icon {
+  position: absolute;
+  border: none;
+  background-color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.add__picture {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 460px;
+  align-items: center;
+  padding: 0 85px;
+}
+
+.add__picture__preview {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e8f1f6;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.fa-image {
+  font-size: 60px;
+  color: #b9c5cc;
+  margin-top: 20px;
+}
+
+.add__picture__btn {
+}
+
+.add__picture__title {
+  width: 100%;
+  border-bottom: 1px solid #b3b3b3;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#add__modal {
+  width: 237px;
+  height: 36px;
+  color: white;
+  background-color: #a7a7a7;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 60px;
+}
+
+#add__picture__title {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+#add__picture__title input {
+  height: 50px;
+  font-size: 36px;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#add__picture__title label {
+  margin: 2em 0 1em 0;
 }

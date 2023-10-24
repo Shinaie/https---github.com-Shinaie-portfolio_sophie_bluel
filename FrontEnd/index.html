@@ -51,8 +51,8 @@
             budget.
           </p>
           <p>
-            En cas de besoin, une équipe pluridisciplinaire peut-être constituée
-            : architecte DPLG, décorateur(trice)
+            En cas de besoin, une équipe pluridisciplinaire peut être constituée
+            : architecte DPLG, décorateur(trice).
           </p>
         </article>
       </section>
@@ -63,6 +63,7 @@
             ><i class="fa-solid fa-pen-to-square"></i>modifier</a
           >
         </h2>
+        <!-- modal 1-->
         <aside
           id="modal1"
           class="modal"
@@ -73,8 +74,71 @@
           <div class="modal__wrapper js__modal__stop">
             <i class="fa-solid fa-xmark close__icon"></i>
             <h3 id="title__modal">Galerie Photos</h3>
+            <span></span>
             <div class="gallery__modal" id="galleryModal"></div>
-             <div id="submit__modal"></div>
+            <div id="submit__modal">
+              <form action="#" method="post">
+                <input
+                  type="button"
+                  id="submit__add__picture"
+                  value="Ajouter une photo"
+                />
+              </form>
+            </div>
+          </div>
+        </aside>
+        <!-- modal2 -->
+        <aside
+          id="modal2"
+          class="modal"
+          aria-hidden="true"
+          aria-labelledby="title__modal2"
+          style="display: none"
+        >
+          <div class="modal__wrapper js__modal__stop">
+            <i class="fa-solid fa-arrow-left return__icon"></i>
+            <i class="fa-solid fa-xmark close__icon"></i>
+            <form class="add__picture">
+              <h3 id="title__modal">Ajout de photo</h3>
+              <div class="add__picture__preview">
+                <i class="fa-regular fa-image"></i>
+                <div class="add__picture__btn">
+                  <label class="add__picture__label" for="fileInput">
+                    + Ajouter photo
+                  </label>
+                  <input
+                    class="add__hidden"
+                    type="file"
+                    name="fileInput"
+                    accept=".jpg, .png"
+                    onchange=""
+                  />
+                  <p>jpg, png : 4mo max</p>
+                </div>
+              </div>
+              <div id="add__picture__title">
+                <label for="name">Titre</label>
+                <input type="text" name="name" id="name" autocomplete="name" />
+                <label for="categories"> Catégorie </label>
+                <select name="category" id="category">
+                  <option
+                    value="0"
+                    disabled
+                    selected
+                    hidden
+                    label="Choisissez une option"
+                  ></option>
+                  <option value="1">Objets</option>
+                  <option value="2">Appartements</option>
+                  <option value="3">Hotels & restaurants</option>
+                </select>
+              </div>
+              <div id="form__valid">
+                <form action="#" method="post">
+                  <input type="button" id="add__modal" value="Valider" />
+                </form>
+              </div>
+            </form>
           </div>
         </aside>
         <div id="container-filter"></div>
@@ -94,7 +158,6 @@
         </form>
       </section>
     </main>
-
     <footer>
       <nav>
         <ul>
