@@ -376,7 +376,9 @@ footer nav ul {
 #title__modal {
   font-size: 26px;
   text-align: center;
-  margin: 60px 0px 30px 0px;
+  line-height: 30px;
+  margin-top: 0px;
+  margin-bottom: 41px;
 }
 
 .gallery__modal {
@@ -453,7 +455,7 @@ footer nav ul {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 460px;
+  width: 430px;
   align-items: center;
   padding: 0 85px;
 }
@@ -461,56 +463,98 @@ footer nav ul {
 .add__picture__preview {
   display: flex;
   justify-content: center;
-  margin: 0;
   flex-direction: column;
+  margin-bottom: 30px;
   align-items: center;
   background-color: #e8f1f6;
-  margin-bottom: 30px;
   width: 100%;
 }
 
+.add__picture__preview img {
+  height: 100%;
+  width: 50%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.add__picture__preview p {
+  font-size: 10px;
+  line-height: 21px;
+  text-align: center;
+  margin-bottom: 21px;
+  margin-top: 7px;
+}
 .fa-image {
   font-size: 60px;
   color: #b9c5cc;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.add__picture__btn {
+#add__picture__upload {
+  display: flex;
+  border-radius: 50px;
+  background-color: #cbd6dc;
+  width: 173px;
+  height: 36px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: #306685;
+  cursor: pointer;
+}
+
+.add__picture__btn label {
+  padding: 10px 25px;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: white;
+  color: #1d6154;
+  cursor: pointer;
 }
 
 .add__picture__title {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   border-bottom: 1px solid #b3b3b3;
-  flex-direction: column;
   gap: 20px;
 }
 
+.add__picture__title input {
+  height: 50px;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.add__picture__title label {
+  margin: 2em 0 1em 0;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+}
+
+#category {
+  height: 50px;
+  font-size: 14px;
+  margin-bottom: 35px;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
 #add__modal {
   width: 237px;
   height: 36px;
   color: white;
   background-color: #a7a7a7;
   font-size: 14px;
+  margin: 28px;
+  border: none;
   font-weight: 700;
   cursor: pointer;
   text-align: center;
   border-radius: 60px;
-}
-
-#add__picture__title {
-  text-align: left;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-}
-
-#add__picture__title input {
-  height: 50px;
-  font-size: 36px;
-  border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-#add__picture__title label {
-  margin: 2em 0 1em 0;
 }
