@@ -82,7 +82,9 @@ button.onclick = () => {
 input.addEventListener("change", function (e) {
   //on recupere le fichier selectionné du champ
   let file = this.files[0];
-  console.log(this.files);
+
+  // console.log(e.target.files[0]);
+
   // traitement et affichage du fichier
   showFile(file);
 });
@@ -130,21 +132,22 @@ addPicture.addEventListener("drop", (e) => {
 // si dans la balise add__picture__preview il y a une image alors envoyer a l'api
 const token = localStorage.getItem("token");
 const title = document.getElementById("input-title");
+
 const category = document.getElementById("category");
-const image = document.getElementById("add__picture__modal");
+// const image = document.getElementById("add__picture__modal");
 
 const buttonValid = document.getElementById("add__modal");
-buttonValid.addEventListener("click", async () => {
-  //Recuperation de l'image
-  const imgElement = document.querySelector(".add__picture__preview img");
 
-  if (imgElement) {
-    // const imgSrc = imgElement.src;
+buttonValid.addEventListener("click", async (e) => {
+  //Recuperation de l'image
+  const image = document.querySelector(".add__picture__preview img");
+  console.log(image);
+
+  if (image) {
     const formData = new FormData();
     formData.append("title", title.value);
-    console.log(title.value);
     formData.append("category", category.value);
-    formData.append("image", image.files[0]);
+    formData.append("image", image);
 
     const response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
