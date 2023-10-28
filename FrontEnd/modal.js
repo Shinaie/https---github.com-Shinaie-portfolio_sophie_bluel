@@ -19,10 +19,34 @@ const openModal = function (e) {
       (project) => `
         <figure>
           <i class="fa-regular fa-trash-can" id="delete__picture"></i>
-           <img src="${project.imageUrl}" alt="photo de ${project.title}">
+           <img src="${project.imageUrl}" alt="photo de ${project.title}" data-id="${project.id}" >
         </figure>`
     )
     .join("");
+
+  //****************************  Supprimer l'image **********************//
+
+  // const pictures = figure.querySelectorAll("img");
+  const deletePictures = document.querySelectorAll("#delete__picture");
+  console.log(deletePictures);
+
+  // recherche de l'id de data de chaque images au click
+
+  deletePictures.forEach((deletePicture) => {
+    deletePicture.addEventListener("click", function () {
+      // supprime l'element parent du bouton
+      const imageParent = deletePicture.parentElement;
+      // obtenir l'id de l'image
+      const pictureData = imageParent
+        .querySelector("img")
+        .getAttribute("data-id");
+      //supprimer l'element parent de figure
+      imageParent.remove();
+      console.log("Image " + pictureData + " supprimée");
+      deletePictureApi(pictureData); // suprime l'image ainsi que l'api au click
+      fetchWorks(); // remets a jour la gallerie
+    });
+  });
 
   modal = target;
   modal.addEventListener("click", closeModal);
@@ -30,6 +54,27 @@ const openModal = function (e) {
   modal
     .querySelector(".js__modal__stop")
     .addEventListener("click", stopPropagation);
+};
+
+//**************************** Supprimer l'image de l'api ******************* */
+const deletePictureApi = async (pictureData) => {
+  try {
+    // Envoi une requête Delete pour supprimer l'image
+    const response = await fetch(
+      `http://localhost:5678/api/works/${pictureData}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (response.ok) {
+      console.log("Image " + pictureData + " supprimée de l'Api");
+    } else {
+      console.error("Erreur lors de la suppression de l'image de l'API");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requête DELETE :" + error);
+  }
 };
 
 //****************************  modal 2 **********************//
@@ -62,6 +107,9 @@ const returnModal = function () {
     e.preventDefault();
     modal2.style.display = "none";
     modal.style.display = null;
+    resetModal2();
+    fetchWorks(); //remet a jour la gallerie
+    resetButton();
   });
 };
 returnModal();
@@ -81,8 +129,7 @@ button.onclick = () => {
 
 input.addEventListener("change", function (e) {
   //on recupere le fichier selectionné du champ
-  let file = this.files[0];
-
+  let file = e.target.files[0];
   // console.log(e.target.files[0]);
 
   // traitement et affichage du fichier
@@ -108,63 +155,73 @@ function showFile(file) {
     alert("Ceci n'est pas une image");
   }
 }
-// **************************** Option pour le glissé déposé ***************** //
 
-// traitement du glissé deposé
-// si l'utilisateur glisse le fichier en dessus du champ de drag
-addPicture.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  messageDragover.textContent = "Relacher pour Uploader le fichier ";
-});
-// Si le fichier quitte par dessus le champ de drag
-addPicture.addEventListener("dragleave", (e) => {
-  messageDragover.textContent = "";
-});
-//si le fichier est droppé
-addPicture.addEventListener("drop", (e) => {
-  e.preventDefault();
-  let file = e.dataTransfer.files[0];
-  showFile(file);
-});
+// ******************************* Initialisation modal2 *******************//
 
-// ******************************* Reinitialisation modal2 *******************//
-
-// si dans la balise add__picture__preview il y a une image alors envoyer a l'api
 const token = localStorage.getItem("token");
-const title = document.getElementById("input-title");
-
-const category = document.getElementById("category");
-// const image = document.getElementById("add__picture__modal");
-
+const titleInput = document.getElementById("input-title");
+const categorySelect = document.getElementById("category");
+const imageInput = document.getElementById("add__picture__modal");
 const buttonValid = document.getElementById("add__modal");
 
+/******************Mise a jour de la couleur du  bouton valider  ********************/
+
+const changeBtnColor = function () {
+  if (
+    titleInput.value !== "" &&
+    categorySelect.value !== "0" &&
+    imageInput.files[0] !== undefined
+  ) {
+    buttonValid.style.background = "#1D6154";
+  } else {
+    buttonValid.style.background = "#A7A7A7";
+  }
+};
+
+titleInput.addEventListener("change", changeBtnColor);
+categorySelect.addEventListener("change", changeBtnColor);
+imageInput.addEventListener("change", changeBtnColor);
+
+/******************Envoi du formulaire  ********************/
+
 buttonValid.addEventListener("click", async (e) => {
-  //Recuperation de l'image
-  const image = document.querySelector(".add__picture__preview img");
-  console.log(image);
+  //Recuperation des champs
+  const title = titleInput.value;
+  const category = categorySelect.value;
+  const imageFile = imageInput.files[0];
 
-  if (image) {
+  if (title && category && imageFile) {
     const formData = new FormData();
-    formData.append("title", title.value);
-    formData.append("category", category.value);
-    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("image", imageFile);
+    formData.append("category", category);
 
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-    if (response.ok) {
-      console.log("image envoyée avec succès");
-    } else {
-      console.error("erreur lors de l'envoi");
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        modal2.style.display = "none";
+        modal2 = null;
+        console.log("image envoyée avec succès");
+        fetchWorks();
+        resetModal2();
+        resetButton();
+      } else {
+        console.error("erreur lors de l'envoi");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la requête à l'API : " + error);
     }
+  } else {
+    alert("Veuillez remplir tous les champs du formulaire.");
   }
 });
-
-/******************Upload avec l'api ********************/
 
 /******** fermeture du modal *****************************/
 
@@ -180,6 +237,7 @@ const closeModal = function (e) {
     .querySelector(".js__modal__stop")
     .removeEventListener("click", stopPropagation);
   modal = null;
+  fetchWorks();
 };
 
 const closeModal2 = function (e) {
@@ -187,6 +245,42 @@ const closeModal2 = function (e) {
   e.preventDefault();
   modal2.style.display = "none";
   modal2 = null;
+  fetchWorks();
+  resetModal2();
+  resetButton();
+};
+
+/******* reset du modal ***************** */
+
+const resetModal2 = async function () {
+  titleInput.value = "";
+  categorySelect.value = "0";
+  imageInput.files[0] = null;
+
+  const newAddPicture = `<i class="fa-regular fa-image"></i>
+  
+  <input
+  type="file"
+  class="add__picture__btn"
+  id="add__picture__modal"
+  accept="image/*"
+  hidden
+  />
+  <label for="file" id="add__picture__upload">
+  + Ajouter photo
+  </label>
+  <span class="messageUpload"></span>
+  <p>jpg, png : 4mo max</p>
+  </div>`;
+
+  addPicture.innerHTML = newAddPicture;
+};
+
+//*********************************reset le bouton pour le rendre actif  */
+const resetButton = function () {
+  button.onclick = () => {
+    input.click();
+  };
 };
 
 //enleve la fermeture au click
