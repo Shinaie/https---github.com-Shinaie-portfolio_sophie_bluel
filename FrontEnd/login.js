@@ -17,10 +17,14 @@ function requestLogin(email, password) {
       if (login.token) {
         localStorage.setItem("token", login.token);
         window.location.href = "./index.html";
+        alert("Bienvenue !");
       } else {
         console.error("Le token n'a pas été trouvé");
         errorDisplay.innerHTML = "Identifiant ou Mot de passe incorrect";
       }
+    })
+    .catch((error) => {
+      console.error("Une erreur s'est produite : " + error);
     });
 }
 

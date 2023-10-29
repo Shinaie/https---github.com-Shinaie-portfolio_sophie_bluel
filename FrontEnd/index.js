@@ -70,40 +70,33 @@ const filterWorks = (categoryName) => {
   worksDisplay(worksFiltre);
 };
 
-// ************************** Modifier le login *******************************
+// ************************** Mode administrateur *******************************
+const tokenAdmin = localStorage.getItem("token");
+console.log(tokenAdmin);
+const administrator = document.querySelector(".js__modal");
+console.log(administrator);
+const loginButton = document.getElementById("loginButton");
+console.log(loginButton);
+const blackBar = document.querySelector(".blackBar");
+console.log(blackBar);
 
-// // Initialise la variable token en fonction de ce qui est stocké dans localStorage
-// let token = localStorage.getItem("token") !== null;
+//si mon token n'est pas actif alors pas de mode administrateur
 
-// // Récupère le bouton de login
-// const loginButton = document.getElementById("loginButton");
-
-// // Fonction pour mettre à jour l'état du bouton
-// const updateButtonState = () => {
-//   if (token === true) {
-//     loginButton.textContent = "Logout";
-//   } else {
-//     loginButton.textContent = "Login";
-//   }
-// };
-
-// // Écoute le clic sur le bouton de login
-// loginButton.addEventListener("click", (e) => {
-//   e.preventDefault(); // Empêche le comportement par défaut du lien (redirection)
-//   if (token) {
-//     // Déconnexion : Supprimer le token du localStorage
-//     localStorage.removeItem("token");
-//   } else {
-//     requestLogin(email, password);
-//     // Connexion : Utilisez la fonction requestLogin pour obtenir un token
-//     // (assurez-vous que l'utilisateur est correctement authentifié avant d'appeler requestLogin)
-//     // Vous pouvez également gérer l'affichage du formulaire de connexion, etc.
-//   }
-//   // Inverse la valeur de token (connecté/déconnecté)
-//   token = !token;
-//   // Met à jour l'état du bouton
-//   updateButtonState();
-// });
-
-// // Appelle la fonction pour mettre à jour l'état du bouton au chargement de la page
-// updateButtonState();
+const stateLoginButton = function () {
+  if (tokenAdmin) {
+    loginButton.textContent = "logout";
+    loginButton.style.color = "black";
+    administrator.style.display = null;
+    blackBar.style.display = null;
+    loginButton.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      alert("Vous avez été déconnecté.");
+      stateLoginButton();
+    });
+  } else {
+    loginButton.textContent = "login";
+    loginButton.style.color = "black";
+    administrator.style.display = "none";
+  }
+};
+stateLoginButton();
